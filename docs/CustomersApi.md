@@ -1,10 +1,11 @@
 # togai_client.CustomersApi
 
-All URIs are relative to *https://sandbox-api.togai.com*
+All URIs are relative to *https://api.togai.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_customer**](CustomersApi.md#create_customer) | **POST** /customers | Create a customer
+[**create_customer_contact**](CustomersApi.md#create_customer_contact) | **POST** /customers/{customer_id}/contacts | Create a contact for the customer
 [**delete_customer**](CustomersApi.md#delete_customer) | **DELETE** /customers/{customer_id} | Delete a customer
 [**get_customer**](CustomersApi.md#get_customer) | **GET** /customers/{customer_id} | Get a customer
 [**get_customers**](CustomersApi.md#get_customers) | **GET** /customers | List customers
@@ -16,24 +17,23 @@ Method | HTTP request | Description
 
 Create a customer
 
-Create a customer and a default account corresponding to it
+This API let’s you to create customers and corresponding accounts.
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import customers_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.create_customer_response import CreateCustomerResponse
-from togai_client.model.create_customer_request import CreateCustomerRequest
+from togai_client.models.create_customer_request import CreateCustomerRequest
+from togai_client.models.create_customer_response import CreateCustomerResponse
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -43,42 +43,32 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = customers_api.CustomersApi(api_client)
-    create_customer_request = CreateCustomerRequest(
-        id="id_example",
-        name="name_example",
-        primary_email="primary_email_example",
-        billing_address="billing_address_example",
-        account=CreateAccountRequest(
-            id="id_example",
-            name="name_example",
-            aliases=[
-                "aliases_example",
-            ],
-        ),
-    ) # CreateCustomerRequest | Payload to create customer
+    api_instance = togai_client.CustomersApi(api_client)
+    create_customer_request = togai_client.CreateCustomerRequest() # CreateCustomerRequest | Payload to create customer
 
-    # example passing only required values which don't have defaults set
     try:
         # Create a customer
         api_response = api_instance.create_customer(create_customer_request)
+        print("The response of CustomersApi->create_customer:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling CustomersApi->create_customer: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_customer_request** | [**CreateCustomerRequest**](CreateCustomerRequest.md)| Payload to create customer |
+ **create_customer_request** | [**CreateCustomerRequest**](CreateCustomerRequest.md)| Payload to create customer | 
 
 ### Return type
 
@@ -92,7 +82,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -108,28 +97,28 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **delete_customer**
-> BaseSuccessResponse delete_customer(customer_id)
+# **create_customer_contact**
+> CreateCustomerContactResponse create_customer_contact(customer_id, create_customer_contact_request)
 
-Delete a customer
+Create a contact for the customer
 
-Delete a customer by id
+This API let’s you to create a contact for the customer
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import customers_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.base_success_response import BaseSuccessResponse
+from togai_client.models.create_customer_contact_request import CreateCustomerContactRequest
+from togai_client.models.create_customer_contact_response import CreateCustomerContactResponse
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -139,30 +128,118 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = customers_api.CustomersApi(api_client)
-    customer_id =  # str | 
+    api_instance = togai_client.CustomersApi(api_client)
+    customer_id = '01BX5ZZKBKACTAV9WEVGEMMVRZ' # str | 
+    create_customer_contact_request = togai_client.CreateCustomerContactRequest() # CreateCustomerContactRequest | Payload to create a contact for a customer
 
-    # example passing only required values which don't have defaults set
     try:
-        # Delete a customer
-        api_response = api_instance.delete_customer(customer_id)
+        # Create a contact for the customer
+        api_response = api_instance.create_customer_contact(customer_id, create_customer_contact_request)
+        print("The response of CustomersApi->create_customer_contact:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
-        print("Exception when calling CustomersApi->delete_customer: %s\n" % e)
+    except Exception as e:
+        print("Exception when calling CustomersApi->create_customer_contact: %s\n" % e)
 ```
+
 
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **customer_id** | **str**|  |
+ **customer_id** | **str**|  | 
+ **create_customer_contact_request** | [**CreateCustomerContactRequest**](CreateCustomerContactRequest.md)| Payload to create a contact for a customer | 
+
+### Return type
+
+[**CreateCustomerContactResponse**](CreateCustomerContactResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**201** | Response for CreateCustomerContactRequest |  -  |
+**400** | Error response |  -  |
+**401** | Error response |  -  |
+**403** | Error response |  -  |
+**404** | Error response |  -  |
+**429** | Error response |  -  |
+**0** | Error response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_customer**
+> BaseSuccessResponse delete_customer(customer_id)
+
+Delete a customer
+
+This API let’s you to delete a customer using customer_id.
+
+### Example
+
+* Bearer (Bearer <credential>) Authentication (bearerAuth):
+
+```python
+import togai_client
+from togai_client.models.base_success_response import BaseSuccessResponse
+from togai_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.togai.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = togai_client.Configuration(
+    host = "https://api.togai.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (Bearer <credential>): bearerAuth
+configuration = togai_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with togai_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = togai_client.CustomersApi(api_client)
+    customer_id = '01BX5ZZKBKACTAV9WEVGEMMVRZ' # str | 
+
+    try:
+        # Delete a customer
+        api_response = api_instance.delete_customer(customer_id)
+        print("The response of CustomersApi->delete_customer:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling CustomersApi->delete_customer: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **customer_id** | **str**|  | 
 
 ### Return type
 
@@ -176,7 +253,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -197,23 +273,22 @@ Name | Type | Description  | Notes
 
 Get a customer
 
-Get a customer by id
+Get customer information using customer_id.
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import customers_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.customer import Customer
+from togai_client.models.customer import Customer
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -223,30 +298,32 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = customers_api.CustomersApi(api_client)
-    customer_id =  # str | 
+    api_instance = togai_client.CustomersApi(api_client)
+    customer_id = '01BX5ZZKBKACTAV9WEVGEMMVRZ' # str | 
 
-    # example passing only required values which don't have defaults set
     try:
         # Get a customer
         api_response = api_instance.get_customer(customer_id)
+        print("The response of CustomersApi->get_customer:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling CustomersApi->get_customer: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **customer_id** | **str**|  |
+ **customer_id** | **str**|  | 
 
 ### Return type
 
@@ -260,7 +337,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -277,27 +353,26 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_customers**
-> CustomerPaginatedResponse get_customers()
+> CustomerPaginatedResponse get_customers(next_token=next_token, page_size=page_size)
 
 List customers
 
-List customers with pagination and sort
+Returns a list of customers with pagination and sort.
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import customers_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.customer_paginated_response import CustomerPaginatedResponse
+from togai_client.models.customer_paginated_response import CustomerPaginatedResponse
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -307,33 +382,34 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = customers_api.CustomersApi(api_client)
-    next_token = "eyJsYXN0SXRlbUlkIjogInN0cmluZyIsICJwYWdlU2l6ZSI6IDEyMywgInNvcnRPcmRlciI6ICJhc2MifQ==" # str |  (optional)
-    page_size = "10" # str |  (optional)
+    api_instance = togai_client.CustomersApi(api_client)
+    next_token = 'eyJsYXN0SXRlbUlkIjogInN0cmluZyIsICJwYWdlU2l6ZSI6IDEwMCwgInNvcnRPcmRlciI6ICJhc2MifQ==' # str |  (optional)
+    page_size = 10 # float |  (optional)
 
-    # example passing only required values which don't have defaults set
-    # and optional values
     try:
         # List customers
         api_response = api_instance.get_customers(next_token=next_token, page_size=page_size)
+        print("The response of CustomersApi->get_customers:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling CustomersApi->get_customers: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **next_token** | **str**|  | [optional]
- **page_size** | **str**|  | [optional]
+ **next_token** | **str**|  | [optional] 
+ **page_size** | **float**|  | [optional] 
 
 ### Return type
 
@@ -347,7 +423,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -368,24 +443,23 @@ Name | Type | Description  | Notes
 
 Update a customer
 
-Update a customer by id
+This API let’s you to update a customer’s information using customer_id.
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import customers_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.update_customer_request import UpdateCustomerRequest
-from togai_client.model.customer import Customer
+from togai_client.models.customer import Customer
+from togai_client.models.update_customer_request import UpdateCustomerRequest
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -395,36 +469,34 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = customers_api.CustomersApi(api_client)
-    customer_id =  # str | 
-    update_customer_request = UpdateCustomerRequest(
-        name="name_example",
-        primary_email="primary_email_example",
-        billing_address="billing_address_example",
-    ) # UpdateCustomerRequest | Payload to update customer
+    api_instance = togai_client.CustomersApi(api_client)
+    customer_id = '01BX5ZZKBKACTAV9WEVGEMMVRZ' # str | 
+    update_customer_request = togai_client.UpdateCustomerRequest() # UpdateCustomerRequest | Payload to update customer
 
-    # example passing only required values which don't have defaults set
     try:
         # Update a customer
         api_response = api_instance.update_customer(customer_id, update_customer_request)
+        print("The response of CustomersApi->update_customer:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling CustomersApi->update_customer: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **customer_id** | **str**|  |
- **update_customer_request** | [**UpdateCustomerRequest**](UpdateCustomerRequest.md)| Payload to update customer |
+ **customer_id** | **str**|  | 
+ **update_customer_request** | [**UpdateCustomerRequest**](UpdateCustomerRequest.md)| Payload to update customer | 
 
 ### Return type
 
@@ -438,7 +510,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json
  - **Accept**: application/json
-
 
 ### HTTP response details
 

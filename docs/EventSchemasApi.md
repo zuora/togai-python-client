@@ -1,6 +1,6 @@
 # togai_client.EventSchemasApi
 
-All URIs are relative to *https://sandbox-api.togai.com*
+All URIs are relative to *https://api.togai.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -8,10 +8,10 @@ Method | HTTP request | Description
 [**create_event_schema**](EventSchemasApi.md#create_event_schema) | **POST** /event_schema | Create an event schema
 [**deactivate_event_schema**](EventSchemasApi.md#deactivate_event_schema) | **POST** /event_schema/{event_schema_name}/deactivate | Deactivate an event schema
 [**delete_event_schema**](EventSchemasApi.md#delete_event_schema) | **DELETE** /event_schema/{event_schema_name} | Delete an event schema
+[**event_schema_event_schema_name_patch**](EventSchemasApi.md#event_schema_event_schema_name_patch) | **PATCH** /event_schema/{event_schema_name} | Update an event schema
 [**get_event_schema**](EventSchemasApi.md#get_event_schema) | **GET** /event_schema/{event_schema_name} | Get an event schema
 [**list_event_schema_versions**](EventSchemasApi.md#list_event_schema_versions) | **GET** /event_schema/{event_schema_name}/versions | List all event schema versions
 [**list_event_schemas**](EventSchemasApi.md#list_event_schemas) | **GET** /event_schema | List event schemas
-[**update_event_schema**](EventSchemasApi.md#update_event_schema) | **PATCH** /event_schema/{event_schema_name} | Update an event schema
 
 
 # **activate_event_schema**
@@ -26,16 +26,15 @@ Activate an event schema
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import event_schemas_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.event_schema import EventSchema
+from togai_client.models.event_schema import EventSchema
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -45,30 +44,32 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = event_schemas_api.EventSchemasApi(api_client)
-    event_schema_name =  # str | 
+    api_instance = togai_client.EventSchemasApi(api_client)
+    event_schema_name = 'rides' # str | 
 
-    # example passing only required values which don't have defaults set
     try:
         # Activate an event schema
         api_response = api_instance.activate_event_schema(event_schema_name)
+        print("The response of EventSchemasApi->activate_event_schema:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling EventSchemasApi->activate_event_schema: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **event_schema_name** | **str**|  |
+ **event_schema_name** | **str**|  | 
 
 ### Return type
 
@@ -82,7 +83,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -103,24 +103,23 @@ Name | Type | Description  | Notes
 
 Create an event schema
 
-Create an event schema
+Create an event schema with attributes and dimensions to process events.
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import event_schemas_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.event_schema import EventSchema
-from togai_client.model.create_event_schema_request import CreateEventSchemaRequest
+from togai_client.models.create_event_schema_request import CreateEventSchemaRequest
+from togai_client.models.event_schema import EventSchema
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -130,45 +129,32 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = event_schemas_api.EventSchemasApi(api_client)
-    create_event_schema_request = CreateEventSchemaRequest(
-        name='''HBXK5yBV3g
-8ZVqP4n2BNC''',
-        description="description_example",
-        attributes=[
-            EventAttributeSchema(
-                name="distance",
-                default_unit="kms",
-            ),
-        ],
-        dimensions=[
-            DimensionsSchema(
-                name="city",
-            ),
-        ],
-    ) # CreateEventSchemaRequest | Payload to create event schema
+    api_instance = togai_client.EventSchemasApi(api_client)
+    create_event_schema_request = togai_client.CreateEventSchemaRequest() # CreateEventSchemaRequest | Payload to create event schema
 
-    # example passing only required values which don't have defaults set
     try:
         # Create an event schema
         api_response = api_instance.create_event_schema(create_event_schema_request)
+        print("The response of EventSchemasApi->create_event_schema:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling EventSchemasApi->create_event_schema: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_event_schema_request** | [**CreateEventSchemaRequest**](CreateEventSchemaRequest.md)| Payload to create event schema |
+ **create_event_schema_request** | [**CreateEventSchemaRequest**](CreateEventSchemaRequest.md)| Payload to create event schema | 
 
 ### Return type
 
@@ -182,7 +168,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -203,23 +188,22 @@ Name | Type | Description  | Notes
 
 Deactivate an event schema
 
-Deactivate an event schema
+You can deactivate an event schema using this API. In case you have an activate usage meter associated with the event schema, you will need to deactivate it first and then try deactivating the event schema. 
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import event_schemas_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.event_schema import EventSchema
+from togai_client.models.event_schema import EventSchema
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -229,30 +213,32 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = event_schemas_api.EventSchemasApi(api_client)
-    event_schema_name =  # str | 
+    api_instance = togai_client.EventSchemasApi(api_client)
+    event_schema_name = 'rides' # str | 
 
-    # example passing only required values which don't have defaults set
     try:
         # Deactivate an event schema
         api_response = api_instance.deactivate_event_schema(event_schema_name)
+        print("The response of EventSchemasApi->deactivate_event_schema:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling EventSchemasApi->deactivate_event_schema: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **event_schema_name** | **str**|  |
+ **event_schema_name** | **str**|  | 
 
 ### Return type
 
@@ -266,7 +252,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -287,23 +272,22 @@ Name | Type | Description  | Notes
 
 Delete an event schema
 
-Delete an event schema
+To delete(archive) an event schema, you’re required to archive associated active usage meters if any.
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import event_schemas_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.base_success_response import BaseSuccessResponse
+from togai_client.models.base_success_response import BaseSuccessResponse
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -313,30 +297,32 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = event_schemas_api.EventSchemasApi(api_client)
-    event_schema_name =  # str | 
+    api_instance = togai_client.EventSchemasApi(api_client)
+    event_schema_name = 'rides' # str | 
 
-    # example passing only required values which don't have defaults set
     try:
         # Delete an event schema
         api_response = api_instance.delete_event_schema(event_schema_name)
+        print("The response of EventSchemasApi->delete_event_schema:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling EventSchemasApi->delete_event_schema: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **event_schema_name** | **str**|  |
+ **event_schema_name** | **str**|  | 
 
 ### Return type
 
@@ -350,7 +336,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -366,8 +351,95 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **event_schema_event_schema_name_patch**
+> EventSchema event_schema_event_schema_name_patch(event_schema_name, update_event_schema_request)
+
+Update an event schema
+
+Update an event schema and add new attributes and dimensions  Once an event schema is activated, you cannot update or delete existing attributes and dimensions however you can add new attributes and dimensions and update event schema description.     operationId: updateEventSchema 
+
+### Example
+
+* Bearer (Bearer <credential>) Authentication (bearerAuth):
+
+```python
+import togai_client
+from togai_client.models.event_schema import EventSchema
+from togai_client.models.update_event_schema_request import UpdateEventSchemaRequest
+from togai_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.togai.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = togai_client.Configuration(
+    host = "https://api.togai.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (Bearer <credential>): bearerAuth
+configuration = togai_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with togai_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = togai_client.EventSchemasApi(api_client)
+    event_schema_name = 'rides' # str | 
+    update_event_schema_request = togai_client.UpdateEventSchemaRequest() # UpdateEventSchemaRequest | Payload to update event schema
+
+    try:
+        # Update an event schema
+        api_response = api_instance.event_schema_event_schema_name_patch(event_schema_name, update_event_schema_request)
+        print("The response of EventSchemasApi->event_schema_event_schema_name_patch:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling EventSchemasApi->event_schema_event_schema_name_patch: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **event_schema_name** | **str**|  | 
+ **update_event_schema_request** | [**UpdateEventSchemaRequest**](UpdateEventSchemaRequest.md)| Payload to update event schema | 
+
+### Return type
+
+[**EventSchema**](EventSchema.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Response for Create and Get event schema requests |  -  |
+**400** | Error response |  -  |
+**401** | Error response |  -  |
+**403** | Error response |  -  |
+**404** | Error response |  -  |
+**429** | Error response |  -  |
+**0** | Error response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_event_schema**
-> EventSchema get_event_schema(event_schema_name)
+> EventSchema get_event_schema(event_schema_name, version=version)
 
 Get an event schema
 
@@ -378,16 +450,15 @@ Get an event schema
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import event_schemas_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.event_schema import EventSchema
+from togai_client.models.event_schema import EventSchema
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -397,41 +468,34 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = event_schemas_api.EventSchemasApi(api_client)
-    event_schema_name =  # str | 
-    version =  # int | Optional version to get a specific version. Gets latest version if it is not provided. (optional)
+    api_instance = togai_client.EventSchemasApi(api_client)
+    event_schema_name = 'rides' # str | 
+    version = 2 # int | Optional version to get a specific version. Gets latest version if it is not provided. (optional)
 
-    # example passing only required values which don't have defaults set
-    try:
-        # Get an event schema
-        api_response = api_instance.get_event_schema(event_schema_name)
-        pprint(api_response)
-    except togai_client.ApiException as e:
-        print("Exception when calling EventSchemasApi->get_event_schema: %s\n" % e)
-
-    # example passing only required values which don't have defaults set
-    # and optional values
     try:
         # Get an event schema
         api_response = api_instance.get_event_schema(event_schema_name, version=version)
+        print("The response of EventSchemasApi->get_event_schema:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling EventSchemasApi->get_event_schema: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **event_schema_name** | **str**|  |
- **version** | **int**| Optional version to get a specific version. Gets latest version if it is not provided. | [optional]
+ **event_schema_name** | **str**|  | 
+ **version** | **int**| Optional version to get a specific version. Gets latest version if it is not provided. | [optional] 
 
 ### Return type
 
@@ -445,7 +509,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -466,23 +529,22 @@ Name | Type | Description  | Notes
 
 List all event schema versions
 
-List all event schema versions
+Get a list of all the versions of an event schema
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import event_schemas_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.event_schema_versions_response import EventSchemaVersionsResponse
+from togai_client.models.event_schema_versions_response import EventSchemaVersionsResponse
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -492,30 +554,32 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = event_schemas_api.EventSchemasApi(api_client)
-    event_schema_name =  # str | 
+    api_instance = togai_client.EventSchemasApi(api_client)
+    event_schema_name = 'rides' # str | 
 
-    # example passing only required values which don't have defaults set
     try:
         # List all event schema versions
         api_response = api_instance.list_event_schema_versions(event_schema_name)
+        print("The response of EventSchemasApi->list_event_schema_versions:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling EventSchemasApi->list_event_schema_versions: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **event_schema_name** | **str**|  |
+ **event_schema_name** | **str**|  | 
 
 ### Return type
 
@@ -529,7 +593,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -546,27 +609,26 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_event_schemas**
-> EventSchemaListPaginatedResponse list_event_schemas()
+> EventSchemaListPaginatedResponse list_event_schemas(status=status, next_token=next_token, page_size=page_size)
 
 List event schemas
 
-List event schemas with pagination and sort
+Returns a list of event schema with pagination.
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import event_schemas_api
-from togai_client.model.event_schema_list_paginated_response import EventSchemaListPaginatedResponse
-from togai_client.model.error_response import ErrorResponse
+from togai_client.models.event_schema_list_paginated_response import EventSchemaListPaginatedResponse
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -576,37 +638,36 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = event_schemas_api.EventSchemasApi(api_client)
-    statuses = "statuses_example" # str | Filter by provided statuses (optional)
-    next_token = "eyJsYXN0SXRlbUlkIjogInN0cmluZyIsICJwYWdlU2l6ZSI6IDEyMywgInNvcnRPcmRlciI6ICJhc2MifQ==" # str |  (optional)
-    page_size = "10" # str |  (optional)
-    sort_order = "ASC" # str |  (optional)
+    api_instance = togai_client.EventSchemasApi(api_client)
+    status = 'status_example' # str | Filter by provided status (optional)
+    next_token = 'eyJsYXN0SXRlbUlkIjogInN0cmluZyIsICJwYWdlU2l6ZSI6IDEwMCwgInNvcnRPcmRlciI6ICJhc2MifQ==' # str |  (optional)
+    page_size = 10 # float |  (optional)
 
-    # example passing only required values which don't have defaults set
-    # and optional values
     try:
         # List event schemas
-        api_response = api_instance.list_event_schemas(statuses=statuses, next_token=next_token, page_size=page_size, sort_order=sort_order)
+        api_response = api_instance.list_event_schemas(status=status, next_token=next_token, page_size=page_size)
+        print("The response of EventSchemasApi->list_event_schemas:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling EventSchemasApi->list_event_schemas: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **statuses** | **str**| Filter by provided statuses | [optional]
- **next_token** | **str**|  | [optional]
- **page_size** | **str**|  | [optional]
- **sort_order** | **str**|  | [optional]
+ **status** | **str**| Filter by provided status | [optional] 
+ **next_token** | **str**|  | [optional] 
+ **page_size** | **float**|  | [optional] 
 
 ### Return type
 
@@ -621,112 +682,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Response for list events request |  -  |
-**400** | Error response |  -  |
-**401** | Error response |  -  |
-**403** | Error response |  -  |
-**404** | Error response |  -  |
-**429** | Error response |  -  |
-**0** | Error response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **update_event_schema**
-> EventSchema update_event_schema(event_schema_name, update_event_schema_request)
-
-Update an event schema
-
-Update an event schema
-
-### Example
-
-* Bearer (Bearer <credential>) Authentication (bearerAuth):
-
-```python
-import time
-import togai_client
-from togai_client.api import event_schemas_api
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.event_schema import EventSchema
-from togai_client.model.update_event_schema_request import UpdateEventSchemaRequest
-from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
-# See configuration.py for a list of all supported configuration parameters.
-configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure Bearer authorization (Bearer <credential>): bearerAuth
-configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with togai_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = event_schemas_api.EventSchemasApi(api_client)
-    event_schema_name =  # str | 
-    update_event_schema_request = UpdateEventSchemaRequest(
-        description="description_example",
-        attributes=[
-            EventAttributeSchema(
-                name="distance",
-                default_unit="kms",
-            ),
-        ],
-        dimensions=[
-            DimensionsSchema(
-                name="city",
-            ),
-        ],
-    ) # UpdateEventSchemaRequest | Payload to update event schema
-
-    # example passing only required values which don't have defaults set
-    try:
-        # Update an event schema
-        api_response = api_instance.update_event_schema(event_schema_name, update_event_schema_request)
-        pprint(api_response)
-    except togai_client.ApiException as e:
-        print("Exception when calling EventSchemasApi->update_event_schema: %s\n" % e)
-```
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **event_schema_name** | **str**|  |
- **update_event_schema_request** | [**UpdateEventSchemaRequest**](UpdateEventSchemaRequest.md)| Payload to update event schema |
-
-### Return type
-
-[**EventSchema**](EventSchema.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Response for Create and Get event schema requests |  -  |
 **400** | Error response |  -  |
 **401** | Error response |  -  |
 **403** | Error response |  -  |
