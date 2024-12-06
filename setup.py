@@ -31,6 +31,7 @@ VERSION = "1.0.2"
 REQUIRES = [
   "urllib3 >= 1.25.3",
   "python-dateutil",
+  "pydantic >= 2"
 ]
 
 setup(
