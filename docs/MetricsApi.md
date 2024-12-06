@@ -1,35 +1,34 @@
 # togai_client.MetricsApi
 
-All URIs are relative to *https://sandbox-api.togai.com*
+All URIs are relative to *https://api.togai.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_metrics**](MetricsApi.md#get_metrics) | **POST** /metrics | Get togai metrics.
+[**get_metrics**](MetricsApi.md#get_metrics) | **POST** /metrics | Get Togai Metrics
 
 
 # **get_metrics**
-> GetMetricsResponse get_metrics()
+> GetMetricsResponse get_metrics(get_metrics_request=get_metrics_request)
 
-Get togai metrics.
+Get Togai Metrics
 
-To get the metrics, you make a POST request to the /metrics resource. You can query up to five metrics in a single request. Single response dataset can contain a maximum of 100 data points.
+Togai Metrics API allows you to fetch different metrics from Events, Usage Meters and PricePlans with multiple queryable options. A single request can query up to five metrics.  Single response can contain a maximum of 300 data points. 
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import metrics_api
-from togai_client.model.get_metrics_request import GetMetricsRequest
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.get_metrics_response import GetMetricsResponse
+from togai_client.models.get_metrics_request import GetMetricsRequest
+from togai_client.models.get_metrics_response import GetMetricsResponse
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -39,50 +38,32 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = metrics_api.MetricsApi(api_client)
-    get_metrics_request = GetMetricsRequest(
-        start_time=dateutil_parser('1970-01-01T00:00:00.00Z'),
-        end_time=dateutil_parser('1970-01-01T00:00:00.00Z'),
-        metric_queries=[
-            MetricQuery(
-                id="id_example",
-                name=MetricName("EVENTS"),
-                aggregation_period="DAY",
-                group_by="group_by_example",
-                filters=[
-                    MetricQueryFilterEntry(
-                        field_name="field_name_example",
-                        field_values=[
-                            "field_values_example",
-                        ],
-                    ),
-                ],
-            ),
-        ],
-    ) # GetMetricsRequest |  (optional)
+    api_instance = togai_client.MetricsApi(api_client)
+    get_metrics_request = {"startTime":"2017-07-21T00:00:00Z","endTime":"2017-07-22T00:00:00Z","metricQueries":[{"id":"m1","name":"EVENTS","aggregationPeriod":"DAY","filters":[{"fieldName":"ACCOUNT_ID","fieldValues":["account#1"]},{"fieldName":"CUSTOMER_ID","fieldValues":["customer#1"]},{"fieldName":"EVENT_STATUS","fieldValues":["PROCESSED"]}]},{"id":"m2","name":"USAGE","aggregationPeriod":"MONTH","filters":[{"fieldName":"CUSTOMER_ID","fieldValues":["customer#1"]}]}]} # GetMetricsRequest |  (optional)
 
-    # example passing only required values which don't have defaults set
-    # and optional values
     try:
-        # Get togai metrics.
+        # Get Togai Metrics
         api_response = api_instance.get_metrics(get_metrics_request=get_metrics_request)
+        print("The response of MetricsApi->get_metrics:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling MetricsApi->get_metrics: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **get_metrics_request** | [**GetMetricsRequest**](GetMetricsRequest.md)|  | [optional]
+ **get_metrics_request** | [**GetMetricsRequest**](GetMetricsRequest.md)|  | [optional] 
 
 ### Return type
 
@@ -96,7 +77,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json
  - **Accept**: application/json
-
 
 ### HTTP response details
 

@@ -1,6 +1,6 @@
 # togai_client.EventIngestionApi
 
-All URIs are relative to *https://sandbox-api.togai.com*
+All URIs are relative to *https://api.togai.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -9,27 +9,27 @@ Method | HTTP request | Description
 
 
 # **ingest**
-> ingest(ingest_event_request)
+> IngestEventResponse ingest(ingest_event_request)
 
 Ingest events to Togai
 
-API to ingest your application event to Togai for billing and usage analytics. To know the limits on the ingestion api, check our docs - https://togai.com/docs/limits.
+This API let’s you to ingest events to your Togai account. Events ingested using this API will be processed via associated usage meters and further via associated price plans to generate final billable value to invoice the customer Read more about [Event Ingestion](https://docs.togai.com/docs/event-ingestion) 
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import event_ingestion_api
-from togai_client.model.ingest_event_request import IngestEventRequest
-from togai_client.model.error_response import ErrorResponse
+from togai_client.models.ingest_event_request import IngestEventRequest
+from togai_client.models.ingest_event_response import IngestEventResponse
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -39,50 +39,36 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = event_ingestion_api.EventIngestionApi(api_client)
-    ingest_event_request = IngestEventRequest(
-        event=Event(
-            event_name="event_name_example",
-            id="id_example",
-            event_timestamp=dateutil_parser('1970-01-01T00:00:00.00Z'),
-            account_id="account_id_example",
-            event_attributes=[
-                EventAttribute(
-                    attribute_name="apiUsage",
-                    attribute_value="attribute_value_example",
-                    attribute_value_unit="attribute_value_unit_example",
-                ),
-            ],
-            dimensions=Dimensions(
-                key="key_example",
-            ),
-        ),
-    ) # IngestEventRequest | Request body to ingest events to Togai usage and billing management service.
+    api_instance = togai_client.EventIngestionApi(api_client)
+    ingest_event_request = togai_client.IngestEventRequest() # IngestEventRequest | Request body to ingest events to Togai usage and billing management service.
 
-    # example passing only required values which don't have defaults set
     try:
         # Ingest events to Togai
-        api_instance.ingest(ingest_event_request)
-    except togai_client.ApiException as e:
+        api_response = api_instance.ingest(ingest_event_request)
+        print("The response of EventIngestionApi->ingest:\n")
+        pprint(api_response)
+    except Exception as e:
         print("Exception when calling EventIngestionApi->ingest: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ingest_event_request** | [**IngestEventRequest**](IngestEventRequest.md)| Request body to ingest events to Togai usage and billing management service. |
+ **ingest_event_request** | [**IngestEventRequest**](IngestEventRequest.md)| Request body to ingest events to Togai usage and billing management service. | 
 
 ### Return type
 
-void (empty response body)
+[**IngestEventResponse**](IngestEventResponse.md)
 
 ### Authorization
 
@@ -92,7 +78,6 @@ void (empty response body)
 
  - **Content-Type**: application/json
  - **Accept**: application/json
-
 
 ### HTTP response details
 
@@ -109,28 +94,27 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ingest_batch**
-> IngestBatchEventResponse ingest_batch(ingest_batch_event_request)
+> IngestEventResponse ingest_batch(ingest_batch_event_request)
 
 Ingest events to Togai in batch
 
-API to ingest your application event in batch to Togai for billing and usage analytics. To know the limits on the ingestion api, check our docs - https://togai.com/docs/limits.
+This API let’s you to ingest events in batch upto 500 events. Ingest large amounts of events up to 500 in batches in an array using this API.
 
 ### Example
 
 * Bearer (Bearer <credential>) Authentication (bearerAuth):
 
 ```python
-import time
 import togai_client
-from togai_client.api import event_ingestion_api
-from togai_client.model.ingest_batch_event_response import IngestBatchEventResponse
-from togai_client.model.error_response import ErrorResponse
-from togai_client.model.ingest_batch_event_request import IngestBatchEventRequest
+from togai_client.models.ingest_batch_event_request import IngestBatchEventRequest
+from togai_client.models.ingest_event_response import IngestEventResponse
+from togai_client.rest import ApiException
 from pprint import pprint
-# Defining the host is optional and defaults to https://sandbox-api.togai.com
+
+# Defining the host is optional and defaults to https://api.togai.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = togai_client.Configuration(
-    host = "https://sandbox-api.togai.com"
+    host = "https://api.togai.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -140,53 +124,36 @@ configuration = togai_client.Configuration(
 
 # Configure Bearer authorization (Bearer <credential>): bearerAuth
 configuration = togai_client.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
 with togai_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = event_ingestion_api.EventIngestionApi(api_client)
-    ingest_batch_event_request = IngestBatchEventRequest(
-        events=[
-            Event(
-                event_name="event_name_example",
-                id="id_example",
-                event_timestamp=dateutil_parser('1970-01-01T00:00:00.00Z'),
-                account_id="account_id_example",
-                event_attributes=[
-                    EventAttribute(
-                        attribute_name="apiUsage",
-                        attribute_value="attribute_value_example",
-                        attribute_value_unit="attribute_value_unit_example",
-                    ),
-                ],
-                dimensions=Dimensions(
-                    key="key_example",
-                ),
-            ),
-        ],
-    ) # IngestBatchEventRequest | Request body to ingest events in batch to Togai usage and billing management service.
+    api_instance = togai_client.EventIngestionApi(api_client)
+    ingest_batch_event_request = togai_client.IngestBatchEventRequest() # IngestBatchEventRequest | Request body to ingest events in batch to Togai usage and billing management service.
 
-    # example passing only required values which don't have defaults set
     try:
         # Ingest events to Togai in batch
         api_response = api_instance.ingest_batch(ingest_batch_event_request)
+        print("The response of EventIngestionApi->ingest_batch:\n")
         pprint(api_response)
-    except togai_client.ApiException as e:
+    except Exception as e:
         print("Exception when calling EventIngestionApi->ingest_batch: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ingest_batch_event_request** | [**IngestBatchEventRequest**](IngestBatchEventRequest.md)| Request body to ingest events in batch to Togai usage and billing management service. |
+ **ingest_batch_event_request** | [**IngestBatchEventRequest**](IngestBatchEventRequest.md)| Request body to ingest events in batch to Togai usage and billing management service. | 
 
 ### Return type
 
-[**IngestBatchEventResponse**](IngestBatchEventResponse.md)
+[**IngestEventResponse**](IngestEventResponse.md)
 
 ### Authorization
 
@@ -196,7 +163,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json
  - **Accept**: application/json
-
 
 ### HTTP response details
 
