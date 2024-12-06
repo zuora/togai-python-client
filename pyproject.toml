@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "togai_client"
-version = "1.0.2"
+version = "1.0.3"
 description = "Togai Apis"
 authors = ["Togai Engineering <engg@togai.com>"]
 license = "Apache 2.0"

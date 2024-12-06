@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 # import apis into sdk package
 from togai_client.api.accounts_api import AccountsApi

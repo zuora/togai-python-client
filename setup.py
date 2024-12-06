@@ -20,7 +20,7 @@ long_description = (this_directory / "README.md").read_text()
 
 
 NAME = "togai-client"
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 # To install the library, run the following
 #
 # python setup.py install
@@ -31,7 +31,6 @@ VERSION = "1.0.2"
 REQUIRES = [
   "urllib3 >= 1.25.3",
   "python-dateutil",
-  "pydantic >= 2"
 ]
 
 setup(
