@@ -41,7 +41,6 @@ setup(
     author_email="engg@togai.com",
     url="https://github.com/zuora/togai-python-client",
     keywords=["OpenAPI", "OpenAPI-Generator", "Togai Apis"],
-    python_requires="3.8+",
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
