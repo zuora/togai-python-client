@@ -5,7 +5,7 @@ description = "Togai Apis"
 authors = ["Togai Engineering <engg@togai.com>"]
 license = "Apache 2.0"
 readme = "README.md"
-repository = "https://github.com/TogaiHQ/togai-python-client"
+repository = "https://github.com/zuora/togai-python-client"
 keywords = ["OpenAPI", "OpenAPI-Generator", "Togai Apis"]
 include = ["togai_client/py.typed"]
 
